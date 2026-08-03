@@ -1,7 +1,7 @@
 PROJECT = AlarmClock
 BOARD = atmega2560
 TARGET = build/main
-PORT = /dev/cu.usbmodem21314301
+PORT =  /dev/cu.usbmodem2131101
 
 
 .PHONY: all flash clean
