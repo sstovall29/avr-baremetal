@@ -1,6 +1,7 @@
 // Blink an LED
 
 #include <avr/io.h>
+#include <util/delay.h>
 
 void delay();
 
@@ -17,12 +18,14 @@ int main(void){
     PORTH |= (1 << PH5);
 
     // Wait 1 second, will need to figure timer
-    delay();
+    //delay();
+    _delay_ms(1000);
     // Write PH5 LOW
     PORTH &= ~(1 << PH5);
 
     // Wait 1 second
-    delay();
+    //delay();
+    _delay_ms(1000);
   }
 
 }
