@@ -2,6 +2,7 @@
 
 #include <avr/io.h>
 
+void delay();
 
 int main(void){
   // Configure the pins
@@ -16,12 +17,23 @@ int main(void){
     PORTH |= (1 << PH5);
 
     // Wait 1 second, will need to figure timer
-
+    delay();
     // Write PH5 LOW
     PORTH &= ~(1 << PH5);
 
     // Wait 1 second
-
+    delay();
   }
 
+}
+
+void delay()
+{
+  // making he variable volatile keeps the compiler from opimizing it away
+    volatile long count = 0;
+
+    while(count < 100000)
+    {
+        count++;
+    }
 }
