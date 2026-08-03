@@ -1,42 +1,37 @@
 // Blink an LED
-
 #include <avr/io.h>
-#include <util/delay.h>
+#include <avr/interrupt.h>
 
-void delay();
+ISR(TIMER1_COMPA_vect)
+{
+    PORTH ^= (1 << PH5);
+}
 
 int main(void){
   // Configure the pins
-  // I want to flash pin 8 on the mega which is PH5
+  // I want to blink pin 8 on the mega which is PH5
 
   // Set that pin in Port H to output
   DDRH |= (1<<PH5);
 
+  // Set the timer to CTC Mode
+  TCCR1A = 0;
+  TCCR1B |= (1 << WGM12);
+  // Set Prescaler - 1024
+  TCCR1B |= (1 << CS12) | (1 << CS10);
+
+  // Set the compare value
+  OCR1A = 15624;
+
+  // Enable the interupt
+  TIMSK1 |= (1 << OCIE1A);
+
+  // Enable golbal inerrupts, tells the CPU to listen for trigger
+  sei();
+
 
   while(1){
-    // Drive PH5 HIGH
-    PORTH |= (1 << PH5);
 
-    // Wait 1 second, will need to figure timer
-    //delay();
-    _delay_ms(1000);
-    // Write PH5 LOW
-    PORTH &= ~(1 << PH5);
-
-    // Wait 1 second
-    //delay();
-    _delay_ms(1000);
   }
 
-}
-
-void delay()
-{
-  // making he variable volatile keeps the compiler from opimizing it away
-    volatile long count = 0;
-
-    while(count < 100000)
-    {
-        count++;
-    }
 }
