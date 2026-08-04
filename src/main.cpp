@@ -1,8 +1,17 @@
 // Blink an LED
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include "gpio.h"
 
-volatile bool ledState = true;
+
+#define INPUT 0
+#define OUTPUT 1
+
+#define LOW 0
+#define HIGH 1
+
+volatile bool ledState = false;
+constexpr uint8_t PORT_WIDTH = 5;
 
 ISR(TIMER1_COMPA_vect)
 {
@@ -23,53 +32,20 @@ void timerSetup(){
   sei();
 }
 
-void pinMode(uint8_t pin, uint8_t mode);
-void digitalWrite(uint8_t pin, uint8_t mode);
-
-
-
 int main(void){
   timerSetup();
   // Configure the pins
   // I have 8 leds connected to every pin in PORTC
-  pinMode(2, 1);
+  for (int i=0; i<PORT_WIDTH; i++){
+    pinMode(i, OUTPUT);
+  }
   
 
   while(1){
-    digitalWrite(2, ledState);
-  }
-
-}
-
-void pinMode(uint8_t pin, uint8_t mode){
-  if (mode){
-    // Set as output
-    DDRC |= (1 << pin);
-  }
-  else {
-    // Set as input
-    DDRC &= ~(1 << pin);
-  }
-}
-
-void digitalWrite(uint8_t pin, uint8_t mode){
-  if (mode){
-    // Set output to high
-    PORTC |= (1 << pin);
-  }
-  else {
-    // Set output to low
-    PORTC &= ~(1 << pin);
-  }
-}
-
-bool digitalRead(uint8_t pin){
-  if(PINC & (1 << pin))
-    {
-        return true;
+    for (int i=0; i<PORT_WIDTH; i++){
+      digitalWrite(i, ledState);
     }
-    else
-    {
-        return false;
-    }
+  }
+
 }
+
