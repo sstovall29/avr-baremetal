@@ -13,7 +13,7 @@ OBJ = \
     build/gpio.o \
     build/timer.o
 
-.PHONY: all flash clean link convert
+.PHONY: all flash clean 
 
 all:	
 	echo "Building $(PROJECT)..."
@@ -22,28 +22,8 @@ all:
 	-mmcu=$(BOARD) \
 	-DF_CPU=16000000UL \
 	-Iinclude \
-	-c src/main.cpp \
-  -o build/main.o
-	avr-g++ \
-	-mmcu=$(BOARD) \
-	-DF_CPU=16000000UL \
-	-Iinclude \
-	-c src/gpio.cpp \
-  -o build/gpio.o
-	avr-g++ \
-	-mmcu=$(BOARD) \
-	-DF_CPU=16000000UL \
-	-Iinclude \
-	-c src/timer.cpp \
-  -o build/timer.o
-# Link the files
-link:
-	avr-g++ \
-    $(OBJ) \
-    -mmcu=$(BOARD) \
-    -o $(TARGET).elf
-	
-convert:
+	$(SRC)	\
+	-o $(TARGET).elf
 	avr-objcopy -O ihex -R .eeprom $(TARGET).elf $(TARGET).hex
 	avr-size --mcu=$(BOARD) --format=avr $(TARGET).elf
 

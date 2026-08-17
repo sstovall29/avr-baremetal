@@ -1,6 +1,43 @@
 #include <avr/io.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include "config.h"
+#include "gpio.h"
+
+
+
+
+void gpioMode(const Pin& pin, uint8_t mode)
+{
+    if(mode == OUTPUT)
+    {
+        *pin.ddr |= (1 << pin.bit);
+    }
+    else
+    {
+        *pin.ddr &= ~(1 << pin.bit);
+        *pin.port |= (1 << pin.bit);
+    }
+}
+
+void gpioWrite(const Pin& pin, uint8_t state){
+  if (state){
+    *pin.port |= (1 << pin.bit);
+  }
+  else {
+    *pin.port &= ~(1 << pin.bit);
+  }
+}
+
+bool gpioRead(const Pin& pin){
+  if (*pin.pin & (1 << pin.bit)){
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 
 void pinMode(uint8_t pin, uint8_t mode){
   if (mode){
