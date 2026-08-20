@@ -1,17 +1,10 @@
 PROJECT = AlarmClock
-BOARD = atmega2560
+BOARD = atmega328P
 TARGET = build/main
-PORT =  /dev/cu.usbmodem2131201
-# SRC = $(wildcard src/*.cpp)
-SRC = \
-    src/main.cpp \
-    src/gpio.cpp \
-    src/timer.cpp
+PORT =  /dev/cu.usbmodem21314101
 
-OBJ = \
-    build/main.o \
-    build/gpio.o \
-    build/timer.o
+SRC = \
+    main.cpp \
 
 .PHONY: all flash clean 
 
@@ -40,18 +33,3 @@ flash:
 clean:
 	echo "cleaning"
 	rm -rf build
-
-
-
-# all:	
-# 	echo "Building $(PROJECT)..."
-# 	mkdir -p build
-# 	avr-g++ \
-# 	-mmcu=$(BOARD) \
-# 	-DF_CPU=16000000UL \
-# 	-Iinclude \
-# 	$(SRC)	\
-# 	-o $(TARGET).elf
-# 	avr-objcopy -O ihex -R .eeprom $(TARGET).elf $(TARGET).hex
-# 	avr-size --mcu=$(BOARD) --format=avr $(TARGET).elf
-

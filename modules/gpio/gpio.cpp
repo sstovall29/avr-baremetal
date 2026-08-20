@@ -1,7 +1,6 @@
 #include <avr/io.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "config.h"
 #include "gpio.h"
 
 
