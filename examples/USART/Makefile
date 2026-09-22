@@ -1,0 +1,38 @@
+PROJECT = USART
+BOARD = atmega328p
+TARGET = build/main
+PORT =  /dev/cu.usbmodem21314301
+MODULES = ../../modules
+
+SRC = \
+    main.cpp \
+		$(MODULES)/usart/usart.cpp \
+		$(MODULES)/gpio/gpio.cpp \
+		$(MODULES)/button/button.cpp
+
+.PHONY: all flash clean 
+
+all:	
+	echo "Building $(PROJECT)..."
+	mkdir -p build
+	avr-g++ \
+	-mmcu=$(BOARD) \
+	-DF_CPU=16000000UL \
+	-I$(MODULES) \
+	$(SRC)	\
+	-o $(TARGET).elf
+	avr-objcopy -O ihex -R .eeprom $(TARGET).elf $(TARGET).hex
+	avr-size --mcu=$(BOARD) --format=avr $(TARGET).elf
+
+flash:
+	echo "Uploading"
+	avrdude \
+	-p $(BOARD) \
+	-c arduino \
+	-P $(PORT) \
+	-b 115200 \
+	-U flash:w:$(TARGET).hex:i
+	
+clean:
+	echo "cleaning"
+	rm -rf build

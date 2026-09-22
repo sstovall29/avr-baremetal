@@ -1,8 +1,7 @@
 // Create a class to abstract the buttons for the alarm clock
 // Uses polling to simplfy defintions and setup
-#include "config.h"
 #include "button.h"
-#include "gpio.h"
+#include "../gpio/gpio.h"
 
 Button::Button(const Pin& pin)
   : pin(pin)

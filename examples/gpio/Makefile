@@ -1,7 +1,7 @@
 PROJECT = gpio
 BOARD = atmega328p
 TARGET = build/main
-PORT =  /dev/cu.usbmodem2131101
+PORT =  /dev/cu.usbmodem21314301
 MODULES = ../../modules
 
 SRC = \
